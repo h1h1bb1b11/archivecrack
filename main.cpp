@@ -1110,10 +1110,26 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, PWSTR, int) {
     builder.AddRanges(io.Fonts->GetGlyphRangesDefault());
     builder.AddText(kUiGlyphs);
     builder.BuildRanges(&ranges);
-    const char* fontCandidates[] = { "C:\\Windows\\Fonts\\simhei.ttf", "C:\\Windows\\Fonts\\msyh.ttc" };
-    for (auto p : fontCandidates) {
+    // Primary UI font: Cascadia Code. It contains no CJK glyphs, so a Chinese
+    // font is merged in for exactly the characters the UI can display.
+    const char* monoCandidates[] = { "C:\\Windows\\Fonts\\CascadiaCode.ttf",
+                                     "C:\\Windows\\Fonts\\CascadiaMono.ttf" };
+    const char* cjkCandidates[] = { "C:\\Windows\\Fonts\\simhei.ttf", "C:\\Windows\\Fonts\\msyh.ttc" };
+    for (auto p : monoCandidates) {
         font = io.Fonts->AddFontFromFileTTF(p, 17.0f * uiScale, &fc, ranges.Data);
         if (font) break;
+    }
+    if (font) {
+        ImFontConfig merge = fc;
+        merge.MergeMode = true;
+        for (auto p : cjkCandidates) {
+            if (io.Fonts->AddFontFromFileTTF(p, 17.0f * uiScale, &merge, ranges.Data)) break;
+        }
+    } else {
+        for (auto p : cjkCandidates) {
+            font = io.Fonts->AddFontFromFileTTF(p, 17.0f * uiScale, &fc, ranges.Data);
+            if (font) break;
+        }
     }
     if (!font) io.Fonts->AddFontDefault();
 
