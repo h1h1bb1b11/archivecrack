@@ -48,8 +48,9 @@ keeps the throughput high.
 
 ## Build
 
-Requirements: MinGW-w64 (g++), and the Dear ImGui sources next to the project
-(`..\LogQuery\third_party\imgui-1.90.9` by default, adjustable in `build.bat`).
+Requirements: MinGW-w64 (g++ with `windres`) and the Dear ImGui 1.90.9 sources.
+
+Put the ImGui sources at `third_party\imgui-1.90.9` (or edit `IMGUI` in `build.bat`), then run:
 
 ```
 build.bat
