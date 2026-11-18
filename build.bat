@@ -4,7 +4,8 @@ set GXX=C:\Users\dell\.cache\mingw64\bin\g++.exe
 if not exist "%GXX%" set GXX=g++
 set WINDRES=C:\Users\dell\.cache\mingw64\bin\windres.exe
 if not exist "%WINDRES%" set WINDRES=windres
-set IMGUI=..\LogQuery\third_party\imgui-1.90.9
+set IMGUI=third_party\imgui-1.90.9
+if not exist "%IMGUI%\imgui.cpp" set IMGUI=..\LogQuery\third_party\imgui-1.90.9
 if not exist "%IMGUI%\imgui.cpp" (
   echo [ERROR] ImGui sources not found at %IMGUI%
   exit /b 1
